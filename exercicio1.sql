@@ -1,8 +1,7 @@
 create table area(
-id_area number pk_area primary key,
-nome varchar2(20) constraint nomeArea_area not null
+    id_area number constraint pk_area primary key,
+    nome varchar2(20) constraint nomeArea_area not null
 );
-
 create table curso(
     id_curso number constraint pk_curso primary key,
     nome varchar2(20) constraint nomeCurso_curso not null,
@@ -54,12 +53,6 @@ create table alunoCurso(
     constraint pk_alunoCurso primary key (id_aluno, id_curso)
 );
 
-alter table
-
-
-
-
-
 
 
 drop table area;
@@ -68,3 +61,5 @@ drop table disciplina;
 drop table aluno;
 drop table professor;
 drop table turma;
+drop table turmaAluno;
+drop table alunoCurso;
