@@ -64,6 +64,50 @@ alter table turma add
     constraint fk_Professor_ID_professor foreign key (ID_professor) references professor(ID_professor));
 
 
+create sequence a_area
+increment by 1
+start with 10
+maxvalue 1000
+order
+nocache;
+
+create sequence b_curso
+increment by 1
+start with 20
+maxvalue 2000
+order
+nocache;
+
+create sequence c_disciplina
+increment by 1
+start with 30
+maxvalue 3000
+order
+nocache;
+
+create sequence d_aluno
+increment by 1
+start with 40
+maxvalue 4000
+order
+nocache;
+
+create sequence e_professor
+increment by 1
+start with 50
+maxvalue 5000
+order
+nocache;
+
+create sequence f_turma
+increment by 1
+start with 60
+maxvalue 6000
+order
+nocache;
+
+
+
 drop table area;
 drop table curso;
 drop table disciplina;
