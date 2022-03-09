@@ -125,6 +125,15 @@ insert into turma(iD_turma, semestre, turno, maximo) VALUES ('600000','3º','man
 insert into turma(iD_turma, semestre, turno, maximo) VALUES ('600001','3º','noite','15 alunos');
 insert into turma(iD_turma, semestre, turno, maximo) VALUES ('600002','3º','manha','45 alunos');
 
+
+
+
+
+
+
+
+
+
 drop table area cascade constraints ;
 drop table curso cascade constraints ;
 drop table disciplina cascade constraints ;
