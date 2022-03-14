@@ -59,12 +59,6 @@ alter table turma add
     constraint fk_Professor_ID_professor foreign key (ID_turma) references professor(ID_professor));
 
 
-create sequence a_area
-increment by 1
-start with 1
-maxvalue 10
-order
-nocache;
 
 create sequence b_curso
 increment by 1
@@ -125,10 +119,9 @@ insert into turma(iD_turma, semestre, turno, maximo) VALUES ('600000','3º','man
 insert into turma(iD_turma, semestre, turno, maximo) VALUES ('600001','3º','noite','15 alunos');
 insert into turma(iD_turma, semestre, turno, maximo) VALUES ('600002','3º','manha','45 alunos');
 
-
-
-
-
+insert into turmaAluno(ID_turma, ID_aluno, mediafinal) VALUES (d_aluno.nextval,ID_turma, '10');
+insert into  turmaAluno(ID_turma, ID_aluno, mediafinal) VALUES (d_aluno.nextval,ID_turma,'15');
+insert into turmaAluno(ID_turma, ID_aluno, mediafinal) VALUES ()
 
 
 
@@ -143,7 +136,6 @@ drop table turma cascade constraints ;
 drop table turmaAluno cascade constraints ;
 drop table alunoCurso cascade constraints ;
 
-drop sequence a_area;
 drop sequence b_curso;
 drop sequence c_disciplina;
 drop sequence d_aluno;
