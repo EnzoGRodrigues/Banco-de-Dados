@@ -6,14 +6,16 @@ create table curso(
     ID_curso number constraint pk_curso primary key,
     nome varchar2(40) constraint nomeCurso_curso not null,
     semestre varchar2(40) constraint semestreCurso_curso not null,
-    turno varchar2(40) constraint turnoCurso_curso not null
+    turno varchar2(40) constraint turnoCurso_curso not null,
+    ID_area number constraint nIDarea_ID_area not null
 );
 
 create table disciplina(
     ID_disciplina number constraint pk_disciplina primary key,
     codigo number constraint codigoDisciplina_disciplina not null,
     nome varchar2(40) constraint nomeDisciplina_disciplina not null,
-    creditos varchar2(40) constraint creditosDisciplina_disciplina not null
+    creditos varchar2(40) constraint creditosDisciplina_disciplina not null,
+    ID_curso number constraint nIDcurso_ID_curso not null
 );
 
 create table aluno(
@@ -25,15 +27,19 @@ create table aluno(
 create table professor(
     ID_professor number constraint pk_professor primary key,
     nome varchar2(40) constraint nomeProfessor_professor not null,
-    horas varchar2(40) constraint horasProfessor_professor not null
+    horas varchar2(40) constraint horasProfessor_professor not null,
+    ID_area number constraint pIDarea_ID_area not null
 );
 
 create table turma(
     iD_turma number constraint pk_turma primary key,
     semestre varchar2(40) constraint semestreTurma_turma not null,
     turno varchar2(40) constraint turnoTurma_turma not null,
-    maximo varchar2(40) constraint maximoaluno_turma not null
+    maximo varchar2(40) constraint maximoaluno_turma not null,
+    ID_disciplina number constraint nIDdisc_ID_disciplina not null,
+    ID_professor number constraint nIDprof_ID_professor not null
 );
+
 create table turmaAluno(
     ID_turma number,
     ID_aluno number,
@@ -49,14 +55,20 @@ create table alunoCurso(
 );
 
 alter table curso add
-    (constraint fk_cArea_ID_area foreign key (ID_curso) references area(ID_area));
+    (constraint fk_Area_ID_area foreign key (ID_area) references area(ID_area));
 alter table disciplina add
-    (constraint fk_Curso_ID_curso foreign key (ID_disciplina)references curso(ID_curso));
+    (constraint fk_dCurso_ID_curso foreign key (ID_curso)references curso(ID_curso));
 alter table professor add
-    (constraint fk_pArea_ID_area foreign key (ID_professor) references area(ID_area));
+    (constraint fk_pArea_ID_area foreign key (ID_area) references area(ID_area));
 alter table turma add
-    (constraint fk_Disciplina_ID_disciplina foreign key (ID_turma) references disciplina(ID_disciplina),
-    constraint fk_Professor_ID_professor foreign key (ID_turma) references professor(ID_professor));
+    (constraint fk_disc_ID_disciplina foreign key (ID_disciplina) references disciplina(ID_disciplina),
+    constraint fk_prof_ID_professor foreign key (ID_professor) references professor(ID_professor));
+alter table turmaAluno add
+    (constraint fk_turma2_ID_turma foreign key (ID_turma) references turma(ID_turma),
+    constraint fk_aluno2_ID_aluno foreign key (ID_aluno)references aluno(ID_aluno));
+alter table alunoCurso add
+    (constraint fk_aluno3_ID_aluno foreign key (ID_aluno)references aluno(ID_aluno),
+    constraint fk_curso2_ID_curso foreign key (ID_curso)references curso(ID_curso));
 
 
 
@@ -95,34 +107,38 @@ maxvalue 699999
 order
 nocache;
 
+--area--
 insert into area(ID_area, nome) VALUES ('1','Matematica');
 insert into area(ID_area, nome) VALUES ('2','Informatica');
 insert into area(ID_area, nome) VALUES ('3','Saude');
-
-insert into curso(ID_curso, nome, semestre, turno) VALUES ('20', 'Matematica','2º','manha');
-insert into curso(ID_curso, nome, semestre, turno) VALUES ('21', 'Engenharia de Software','4º','tarde');
-insert into curso(ID_curso, nome, semestre, turno) VALUES ('22', 'Enfermagem','7º','noite');
-
-insert into disciplina(id_disciplina, codigo, nome, creditos) VALUES ('300','5','Algoritmo','10 cr');
-insert into disciplina(id_disciplina, codigo, nome, creditos) VALUES ('301','1','Estrutura de Dados','20 cr');
-insert into disciplina(id_disciplina, codigo, nome, creditos) VALUES ('302','8','Anatomia','15 cr');
-
-insert into aluno(id_aluno, nome, data) VALUES ('4000','Enzo','07/04/01');
-insert into aluno(id_aluno, nome, data) VALUES ('4001','Lucas','10/12/99');
-insert into aluno(id_aluno, nome, data) VALUES ('4002','Carol','23/03/96');
-
-insert into professor(id_professor, nome, horas) values ('50000','Luis Soares','66h');
-insert into professor(id_professor, nome, horas) values ('50001','Paula Vencato','33h');
-insert into professor(id_professor, nome, horas) values ('50002','Cesar Castro','120h');
-
-insert into turma(iD_turma, semestre, turno, maximo) VALUES ('600000','3º','manha','30 alunos');
-insert into turma(iD_turma, semestre, turno, maximo) VALUES ('600001','3º','noite','15 alunos');
-insert into turma(iD_turma, semestre, turno, maximo) VALUES ('600002','3º','manha','45 alunos');
-
-insert into turmaAluno(ID_turma, ID_aluno, mediafinal) VALUES (d_aluno.nextval,ID_turma, '10');
-insert into  turmaAluno(ID_turma, ID_aluno, mediafinal) VALUES (d_aluno.nextval,ID_turma,'15');
-insert into turmaAluno(ID_turma, ID_aluno, mediafinal) VALUES ()
-
+--curso--
+insert into curso(ID_CURSO,ID_area, nome, semestre, turno) VALUES (b_curso.nextval,'1','Matematica','2º','manha');
+insert into curso(ID_curso,ID_area, nome, semestre, turno) VALUES (b_curso.nextval,'2','Engenharia de Software','4º','tarde');
+insert into curso(ID_curso,ID_area, nome, semestre, turno) VALUES (b_curso.nextval,'3','Enfermagem','7º','noite');
+--disciplina--
+insert into disciplina(id_disciplina,ID_curso, codigo, nome, creditos) VALUES (c_disciplina.nextval,b_curso.nextval,'5','Algoritmo','10 cr');
+insert into disciplina(id_disciplina,ID_curso, codigo, nome, creditos) VALUES (c_disciplina.nextval,b_curso.nextval,'1','Estrutura de Dados','20 cr');
+insert into disciplina(id_disciplina,ID_curso, codigo, nome, creditos) VALUES (c_disciplina.nextval,b_curso.nextval,'8','Anatomia','15 cr');
+--aluno--
+insert into aluno(id_aluno, nome, data) VALUES (d_aluno.nextval,'Enzo','07/04/01');
+insert into aluno(id_aluno, nome, data) VALUES (d_aluno.nextval,'Lucas','10/12/99');
+insert into aluno(id_aluno, nome, data) VALUES (d_aluno.nextval,'Carol','23/03/96');
+--professor--
+insert into professor(id_professor,ID_area, nome, horas) values (e_professor.nextval,'1','Luis Soares','66h');
+insert into professor(id_professor,ID_area, nome, horas) values (e_professor.nextval,'2','Paula Vencato','33h');
+insert into professor(id_professor,ID_area, nome, horas) values (e_professor.nextval,'3','Cesar Castro','120h');
+--turma--
+insert into turma(iD_turma,ID_professor,ID_disciplina, semestre, turno, maximo) VALUES (f_turma.nextval,e_professor.nextval,c_disciplina.nextval,'3º','manha','30 alunos');
+insert into turma(iD_turma,ID_professor,ID_disciplina, semestre, turno, maximo) VALUES (f_turma.nextval,e_professor.nextval,c_disciplina.nextval,'3º','noite','15 alunos');
+insert into turma(iD_turma,ID_professor,ID_disciplina, semestre, turno, maximo) VALUES (f_turma.nextval,e_professor.nextval,c_disciplina.nextval,'3º','manha','45 alunos');
+--turmaAluno--
+insert into turmaAluno(ID_turma, ID_aluno, mediafinal) VALUES ('600001','4001','8');
+insert into  turmaAluno(ID_turma, ID_aluno, mediafinal) VALUES ('600002','4002','10');
+insert into turmaAluno(ID_turma, ID_aluno, mediafinal) VALUES ('600003','4003','7');
+--alunoCurso--
+insert into alunoCurso(ID_aluno, ID_curso, data) VALUES ('4001','20','08/04/2022');
+insert into alunoCurso(ID_aluno, ID_curso, data) VALUES ('4002','21','10/03/2022');
+insert into alunoCurso(ID_aluno, ID_curso, data) VALUES ('4003','22','25/01/2022');
 
 
 
